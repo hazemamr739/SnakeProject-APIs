@@ -9,7 +9,7 @@ namespace SnakeProject_BE.Entities
 
         public Region Region { get; set; }
 
-        public PsnDenomination Denomination { get; set; }
+        //public PsnDenomination Denomination { get; set; }
 
         public decimal Price { get; set; }
 
