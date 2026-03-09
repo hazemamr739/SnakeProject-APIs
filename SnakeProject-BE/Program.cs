@@ -1,6 +1,8 @@
 
 
+using MapsterMapper;
 using SnakeProject_BE.Persistence;
+using System.Reflection;
 
 namespace SnakeProject_BE
 {
@@ -20,6 +22,9 @@ namespace SnakeProject_BE
                 options.UseSqlServer(connectionString);
             });
 
+            var mappingConfig = TypeAdapterConfig.GlobalSettings;
+            mappingConfig.Scan(Assembly.GetExecutingAssembly());
+            builder.Services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
