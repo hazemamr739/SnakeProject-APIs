@@ -8,13 +8,25 @@ namespace SnakeProject_BE.Persistence.Configurations
         {
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+
             builder.Property(p => p.Code)
                 .IsRequired()
                 .HasMaxLength(100);
-             builder.HasIndex(p => p.Code)
+
+            builder.Property(p => p.ProductId)
+                .IsRequired();
+
+            builder.Property(p => p.IsUsed)
+                .HasDefaultValue(false);
+
+            builder.Property(p => p.UsedAt)
+                .HasDefaultValue(DateTime.UtcNow);
+
+            builder.HasIndex(p => p.Code)
                 .IsUnique();
-             builder.HasOne(p => p.Product)
-                .WithMany()
+
+            builder.HasOne(p => p.Product)
+                .WithMany(pr => pr.PsnCodes)
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
