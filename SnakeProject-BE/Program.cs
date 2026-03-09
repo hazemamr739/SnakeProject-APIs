@@ -1,5 +1,3 @@
-
-
 using MapsterMapper;
 using SnakeProject_BE.Persistence;
 using System.Reflection;
@@ -30,6 +28,7 @@ namespace SnakeProject_BE
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IPsnCodeService, PsnCodeService>();
 
             var app = builder.Build();
 
