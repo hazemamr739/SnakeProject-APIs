@@ -1,4 +1,7 @@
 
+
+using SnakeProject_BE.Persistence;
+
 namespace SnakeProject_BE
 {
     public class Program
@@ -10,10 +13,18 @@ namespace SnakeProject_BE
             // Add services to the container.
             builder.Services.AddDependencies(builder.Configuration);
 
+            // Add DbContext Configuration
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 

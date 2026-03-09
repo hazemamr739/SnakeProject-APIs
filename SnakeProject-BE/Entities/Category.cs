@@ -8,5 +8,9 @@
         public int SortOrder { get; set; }
         public bool IsActive { get; set; } = true;
 
+        public ICollection<PlusSupscription> PlusSupscriptions { get; set; } = [];
+        public ICollection<GameShareAccount> GameShareAccounts { get; set; } = [];
+        public ICollection<PsnCodesDenomination> PsnCodes { get; set; } = [];
+
     }
 }

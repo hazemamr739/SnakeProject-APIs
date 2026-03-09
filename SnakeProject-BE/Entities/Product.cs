@@ -1,0 +1,16 @@
+﻿namespace SnakeProject_BE.Entities
+{
+    public class Product
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; } = default!;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public string ImageUrl { get; set; } = default!;
+        public bool IsActive { get; set; }
+        public int DenominationId { get; set; }
+        public PsnCodesDenomination Denomination { get; set; } = default!;
+        public ICollection<PsnCode> PsnCodes { get; set; } = [];
+    }
+}

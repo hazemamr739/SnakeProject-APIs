@@ -5,5 +5,6 @@ namespace SnakeProject_BE.Services
     public interface IProductService
     {
 
+
     }
 }
