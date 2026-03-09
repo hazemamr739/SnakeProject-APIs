@@ -1,5 +1,6 @@
 ﻿using SnakeProject_BE.Contracts.Product;
 using SnakeProject_BE.Persistence;
+using SnakeProject_BE.Shared;
 
 namespace SnakeProject_BE.Services
 {
@@ -9,7 +10,7 @@ namespace SnakeProject_BE.Services
 
 
 
-        public async Task<IEnumerable<PsnCode>> GetAllPsnCodesAsync() => await _context.PsnCodes.ToListAsync();
+        public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodesAsync() => (IEnumerable<PsnCodeResponse>)await _context.PsnCodes.ToListAsync();
         public async Task<PsnCode> GetPsnCodeByIdAsync(int id)
         {
 
@@ -31,5 +32,7 @@ namespace SnakeProject_BE.Services
 
             return psnCode;
         }
+
+        
     }
 }

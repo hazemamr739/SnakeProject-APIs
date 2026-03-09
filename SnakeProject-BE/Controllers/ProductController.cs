@@ -8,21 +8,37 @@ namespace SnakeProject_BE.Controllers
     [ApiController]
     public class ProductController(IPsnCodeService _psnCodeService) : ControllerBase
     {
+
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<PsnCodeResponse>> GetAll()
         {
-
-
-            return Ok();
-
+            var result = await _psnCodeService.GetAllPsnCodesAsync();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]PsnCodeRequest request, CancellationToken cancellationToken=default)
+        public async Task<ActionResult<PsnCodeResponse>> Create([FromBody] PsnCodeRequest request, CancellationToken cancellationToken = default)
         {
-            var result = _psnCodeService.AddPsnCodeAsync(request, cancellationToken = default);
+            try
+            {
+                await _psnCodeService.AddPsnCodeAsync(request, cancellationToken);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
 
-            return Ok();
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPsnCodeById(int id)
+        {
+            await _psnCodeService.GetPsnCodeByIdAsync(id);
+            return NoContent();
         }
     }
 }
