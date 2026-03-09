@@ -12,6 +12,7 @@ namespace SnakeProject_BE
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
+            
             return services;
         }
     }

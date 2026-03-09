@@ -1,7 +1,5 @@
 ﻿using SnakeProject_BE.Contracts.Product;
 using SnakeProject_BE.Persistence;
-using SnakeProject_BE.Shared;
-
 namespace SnakeProject_BE.Services
 {
     public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService

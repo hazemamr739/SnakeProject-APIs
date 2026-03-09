@@ -9,8 +9,8 @@
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = default!;
         public bool IsActive { get; set; }
-        public int DenominationId { get; set; }
-        public PsnCodesDenomination Denomination { get; set; } = default!;
+        
+        public ICollection<PsnCodesDenomination> Denominations { get; set; } = [];
         public ICollection<PsnCode> PsnCodes { get; set; } = [];
     }
 }
