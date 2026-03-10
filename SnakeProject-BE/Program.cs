@@ -12,21 +12,21 @@ namespace SnakeProject_BE
 
             // Add services to the container.
             builder.Services.AddDependencies(builder.Configuration);
-
+            builder.Services.AddInfrastructureServices(builder.Configuration);
             // Add DbContext Configuration
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(connectionString);
-            });
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlServer(connectionString);
+            //});
 
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             builder.Services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            
+           
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IPsnCodeService, PsnCodeService>();
 
