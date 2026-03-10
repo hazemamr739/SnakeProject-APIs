@@ -9,9 +9,10 @@ namespace SnakeProject_BE.Entities
 
         public Currency Currency { get; set; }
         public int RegionId { get; set; }
-        public PsnRegion Region { get; set; } = null!;
-        
         public int ProductId { get; set; }
+        
+        public PsnRegion Region { get; set; } = null!;
         public Product Product { get; set; } = null!;
+        public ICollection<PsnCode> PsnCodes { get; set; } = [];
     }
 }

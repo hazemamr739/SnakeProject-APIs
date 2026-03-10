@@ -2,9 +2,9 @@
 
 namespace SnakeProject_BE.Persistence.Configurations
 {
-    public class ProductConfigurations : IEntityTypeConfiguration<Product>
+    public class ProductConfigurations : BaseEntityConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        protected override void ConfigureProperties(EntityTypeBuilder<Product> builder)
         {
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
@@ -17,6 +17,8 @@ namespace SnakeProject_BE.Persistence.Configurations
                 .HasMaxLength(2500);
 
             builder.Property(p => p.Price)
+                .IsRequired()
+                .HasPrecision(18, 2)
                 .HasColumnType("decimal(18,2)");
 
             builder.Property(p => p.ImageUrl)
@@ -25,16 +27,32 @@ namespace SnakeProject_BE.Persistence.Configurations
 
             builder.Property(p => p.IsActive)
                 .HasDefaultValue(true);
+        }
 
+        protected override void ConfigureRelationships(EntityTypeBuilder<Product> builder)
+        {
+            // One Product has Many PsnCodesDenominations
             builder.HasMany(p => p.Denominations)
                 .WithOne(d => d.Product)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_PsnCodesDenomination_Product_ProductId");
 
+            // One Product has Many PsnCodes
             builder.HasMany(p => p.PsnCodes)
                 .WithOne(pc => pc.Product)
                 .HasForeignKey(pc => pc.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_PsnCode_Product_ProductId");
+        }
+
+        protected override void ConfigureIndexes(EntityTypeBuilder<Product> builder)
+        {
+            builder.HasIndex(p => p.Name)
+                .HasDatabaseName("IX_Product_Name");
+
+            builder.HasIndex(p => p.IsActive)
+                .HasDatabaseName("IX_Product_IsActive");
         }
     }
 }
