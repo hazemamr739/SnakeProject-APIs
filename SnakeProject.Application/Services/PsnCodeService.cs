@@ -1,4 +1,4 @@
-﻿using SnakeProject.API.Contracts.Product;
+﻿using SnakeProject.Application.DTOs.Product;
 using SnakeProject.Domain.Entities;
 namespace SnakeProject.Application.Services
 {
@@ -36,9 +36,5 @@ namespace SnakeProject.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<PsnCode> AddPsnCodeAsync(PsnCodeRequest codeRequest, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

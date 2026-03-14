@@ -1,4 +1,4 @@
-﻿namespace SnakeProject.API.Contracts.Product
+﻿namespace SnakeProject.Application.DTOs.Product
 {
     public record PsnCodeResponse(int Id , string Code, bool IsUsed);
    

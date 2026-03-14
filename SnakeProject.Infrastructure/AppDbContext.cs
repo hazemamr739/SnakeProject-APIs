@@ -25,5 +25,5 @@ namespace SnakeProject.Infrastructure;
             base.OnConfiguring(optionsBuilder);
         }
     }
-}
+
 

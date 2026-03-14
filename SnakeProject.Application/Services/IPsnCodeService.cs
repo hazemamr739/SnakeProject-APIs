@@ -1,4 +1,4 @@
-﻿using SnakeProject.API.Contracts.Product;
+﻿using SnakeProject.Application.DTOs.Product;
 using SnakeProject.Domain.Entities;
 namespace SnakeProject.Application.Services
 {

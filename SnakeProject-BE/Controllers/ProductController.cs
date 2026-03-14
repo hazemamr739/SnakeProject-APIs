@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SnakeProject.Application.DTOs.Product;
 namespace SnakeProject_BE.Controllers
 {
     [Route("api/[controller]")]
