@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using SnakeProject_BE.Persistence.Configurations;
+using SnakeProject.Infrastructure.Data.Configurations;
 namespace SnakeProject.Infrastructure;
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<PsnCodesDenomination> PsnCodesDenominations { get; set; }

@@ -1,6 +1,4 @@
-﻿using SnakeProject.Infrastructure.Configurations;
-
-namespace SnakeProject_BE.Persistence.Configurations
+﻿namespace SnakeProject.Infrastructure.Data.Configurations
 {
     public class ProductConfigurations : BaseEntityConfiguration<Product>
     {

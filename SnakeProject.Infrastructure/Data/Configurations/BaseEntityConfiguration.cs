@@ -1,4 +1,4 @@
-namespace SnakeProject.Infrastructure.Configurations
+namespace SnakeProject.Infrastructure.Data.Configurations
 {
     public abstract class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class
     {

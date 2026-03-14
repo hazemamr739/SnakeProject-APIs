@@ -1,11 +1,11 @@
-﻿using SnakeProject.Application.DTOs.Product;
+﻿using Microsoft.EntityFrameworkCore;
+using SnakeProject.Application.DTOs.Product;
 using SnakeProject.Domain.Entities;
 namespace SnakeProject.Application.Services
 {
-    public class PsnCodeService(AppDbContext context) : IPsnCodeService
+    public class PsnCodeService(ApplicationDbContext _context) : IPsnCodeService
     {
-        private readonly AppDbContext _context = context;
-
+       // private readonly ApplicationDbContext _context;
 
 
         public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodesAsync() => (IEnumerable<PsnCodeResponse>)await _context.PsnCodes.ToListAsync();

@@ -1,4 +1,4 @@
-namespace SnakeProject_BE.Persistence.Configurations
+namespace SnakeProject.Infrastructure.Data.Configurations
 {
     public class RegionCategoryConfigurations : BaseEntityConfiguration<RegionCategory>
     {
