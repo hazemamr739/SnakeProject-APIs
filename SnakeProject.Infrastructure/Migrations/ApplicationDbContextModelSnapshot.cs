@@ -8,7 +8,7 @@ using SnakeProject_BE.Persistence;
 
 #nullable disable
 
-namespace SnakeProject_BE.Migrations
+namespace SnakeProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

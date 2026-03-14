@@ -1,4 +1,5 @@
-﻿using SnakeProject.Domain.Entities;
+﻿using SnakeProject.API.Contracts.Product;
+using SnakeProject.Domain.Entities;
 
 
 namespace SnakeProject.API.Mapping

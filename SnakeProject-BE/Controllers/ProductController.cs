@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SnakeProject.API.Contracts.Product;
+using SnakeProject.Infrastructure.Services;
 using SnakeProject_BE.Contracts.Product;
 
 namespace SnakeProject_BE.Controllers

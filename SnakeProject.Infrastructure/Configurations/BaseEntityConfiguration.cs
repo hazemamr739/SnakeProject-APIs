@@ -1,12 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace SnakeProject_BE.Persistence.Configurations
+namespace SnakeProject.Infrastructure.Configurations
 {
-    /// <summary>
-    /// Base class for entity configurations following DRY and SOLID principles.
-    /// Provides common configuration patterns and conventions.
-    /// </summary>
     public abstract class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class
     {
      

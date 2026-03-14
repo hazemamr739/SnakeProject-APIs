@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SnakeProject.Domain.Entities;
-
-namespace SnakeProject_BE.Persistence.Configurations
+﻿namespace SnakeProject_BE.Persistence.Configurations
 {
     public class PsnCodeConfigurations : BaseEntityConfiguration<PsnCode>
     {

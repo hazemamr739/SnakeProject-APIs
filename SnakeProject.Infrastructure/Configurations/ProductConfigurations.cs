@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SnakeProject.Domain.Entities;
+﻿using SnakeProject.Infrastructure.Configurations;
 
 namespace SnakeProject_BE.Persistence.Configurations
 {

@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SnakeProject_BE.Migrations
+namespace SnakeProject.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class efcoresetuptables : Migration

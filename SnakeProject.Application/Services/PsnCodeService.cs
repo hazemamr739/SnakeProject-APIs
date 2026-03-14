@@ -1,9 +1,10 @@
 ﻿using SnakeProject.Domain.Entities;
+using SnakeProject.Infrastructure.Services;
 using SnakeProject_BE.Contracts.Product;
 using SnakeProject_BE.Persistence;
 namespace SnakeProject_BE.Services
 {
-    public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
+    public class PsnCodeService(AppDbContext context) : IPsnCodeService
     {
         private readonly ApplicationDbContext _context = context;
 
