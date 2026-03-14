@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SnakeProject_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class SetupOurEfCoreAndTables : Migration
+    public partial class efcoresetuptables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -224,8 +224,7 @@ namespace SnakeProject_BE.Migrations
                         name: "FK_PsnCodesDenomination_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PsnCodesDenomination_PsnRegion_RegionId",
                         column: x => x.RegionId,
