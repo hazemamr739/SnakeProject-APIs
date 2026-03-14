@@ -13,6 +13,12 @@
         Primary = 2,
         Secondary = 3
     }
+    public enum Currency
+    {
+        USD = 1,
+        EUR = 2,
+        GBP = 3
+    }
     public enum PlusPlan : byte
     {
         essintial = 1,
@@ -24,21 +30,6 @@
         OneMonth = 1,
         ThreeMonths = 3,
         TwelveMonths = 12
-    }
-    public enum Region
-    {
-        USA = 1,
-        UAE = 2,
-        UK = 3,
-        KSA = 4,
-        TRY = 5
-    }
-
-    public enum Denomination
-    { 
-        Ten = 5,
-        USD20 = 20,
-        USD50 = 50
     }
     public enum ConsoleType
     {
