@@ -477,7 +477,7 @@ namespace SnakeProject_BE.Migrations
                     b.HasOne("SnakeProject_BE.Entities.Product", "Product")
                         .WithMany("Denominations")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_PsnCodesDenomination_Product_ProductId");
 
