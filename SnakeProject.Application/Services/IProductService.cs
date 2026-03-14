@@ -1,4 +1,4 @@
-﻿namespace SnakeProject.Infrastructure.Services
+﻿namespace SnakeProject.Application.Services
 {
     public interface IProductService
     {

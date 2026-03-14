@@ -1,4 +1,4 @@
-﻿global using FluentValidation;
-global using Mapster;
+﻿global using Mapster;
 global using Microsoft.EntityFrameworkCore;
-global using SnakeProject_BE.Services;
+global using SnakeProject.API.Contracts.Product;
+global using SnakeProject.Application.Services;

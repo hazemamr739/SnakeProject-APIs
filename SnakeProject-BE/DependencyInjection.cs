@@ -1,10 +1,8 @@
-﻿using Mapster;
-using MapsterMapper;
-using SnakeProject_BE.Persistence;
-using System;
+﻿using MapsterMapper;
+using SnakeProject.Infrastructure;
 using System.Reflection;
 
-namespace SnakeProject_BE
+namespace SnakeProject.API
 {
     public static class DependencyInjection
     {

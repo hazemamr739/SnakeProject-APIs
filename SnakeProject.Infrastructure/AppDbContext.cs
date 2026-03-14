@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SnakeProject_BE.Persistence.Configurations;
-namespace SnakeProject.API.Persistence
-{
+namespace SnakeProject.Infrastructure;
     public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         public DbSet<Product> Products { get; set; }

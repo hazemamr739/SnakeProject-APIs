@@ -1,12 +1,10 @@
-﻿using SnakeProject.Domain.Entities;
-using SnakeProject.Infrastructure.Services;
-using SnakeProject_BE.Contracts.Product;
-using SnakeProject_BE.Persistence;
-namespace SnakeProject_BE.Services
+﻿using SnakeProject.API.Contracts.Product;
+using SnakeProject.Domain.Entities;
+namespace SnakeProject.Application.Services
 {
     public class PsnCodeService(AppDbContext context) : IPsnCodeService
     {
-        private readonly ApplicationDbContext _context = context;
+        private readonly AppDbContext _context = context;
 
 
 
@@ -33,6 +31,14 @@ namespace SnakeProject_BE.Services
             return psnCode;
         }
 
-        
+        Task<IEnumerable<PsnCodeResponse>> IPsnCodeService.GetAllPsnCodesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PsnCode> AddPsnCodeAsync(PsnCodeRequest codeRequest, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
