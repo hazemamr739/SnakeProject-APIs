@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SnakeProject.Application\SnakeProject.Application.csproj" />
     <ProjectReference Include="..\SnakeProject.Infrastructure\SnakeProject.Infrastructure.csproj" />
+    <ProjectReference Include="..\SnakeProject.Shared\SnakeProject.Shared.csproj" />
   </ItemGroup>
 
 </Project>
