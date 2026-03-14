@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace SnakeProject_BE.Entities
+namespace SnakeProject.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {

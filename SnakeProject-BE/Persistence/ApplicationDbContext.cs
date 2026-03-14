@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SnakeProject.Domain.Entities;
 using SnakeProject_BE.Persistence.Configurations;
 
 namespace SnakeProject_BE.Persistence

@@ -1,4 +1,5 @@
-﻿using SnakeProject_BE.Contracts.Product;
+﻿using SnakeProject.Domain.Entities;
+using SnakeProject_BE.Contracts.Product;
 using SnakeProject_BE.Persistence;
 namespace SnakeProject_BE.Services
 {

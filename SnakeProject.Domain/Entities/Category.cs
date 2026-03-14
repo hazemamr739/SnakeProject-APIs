@@ -1,4 +1,6 @@
-﻿namespace SnakeProject_BE.Entities
+﻿using SnakeProject.DomainE.Entities;
+
+namespace SnakeProject.Domain.Entities
 {
     public class Category
     {

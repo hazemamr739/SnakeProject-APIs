@@ -1,6 +1,7 @@
-﻿using SnakeProject_BE.Contracts.Product;
+﻿using SnakeProject.Domain.Entities;
 
-namespace SnakeProject_BE.Mapping
+
+namespace SnakeProject.API.Mapping
 {
     public class MappingConfiguration : IRegister
     {

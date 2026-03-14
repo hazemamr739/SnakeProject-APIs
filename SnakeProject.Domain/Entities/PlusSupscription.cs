@@ -1,6 +1,6 @@
 ﻿using SnakeProject.Domain.Enums;
 
-namespace SnakeProject_BE.Entities
+namespace SnakeProject.DomainE.Entities
 {
     public class PlusSupscription
     {

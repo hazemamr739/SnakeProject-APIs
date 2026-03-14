@@ -1,4 +1,5 @@
-﻿using SnakeProject_BE.Contracts.Product;
+﻿using SnakeProject.Domain.Entities;
+using SnakeProject_BE.Contracts.Product;
 namespace SnakeProject_BE.Services
 {
     public interface IPsnCodeService

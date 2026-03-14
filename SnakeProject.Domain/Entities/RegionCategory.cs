@@ -1,4 +1,4 @@
-﻿namespace SnakeProject_BE.Entities
+﻿namespace SnakeProject.Domain.Entities
 {
     public class RegionCategory
     {
