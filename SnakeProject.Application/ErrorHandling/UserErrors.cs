@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SnakeProject.Application.Abstraction;
 
 namespace SnakeProject.Application.ErrorHandling
 {

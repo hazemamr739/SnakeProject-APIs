@@ -27,3 +27,4 @@ namespace SnakeProject.Application.Abstraction
             return new ObjectResult(problemDetails);
         }
     }
+}
