@@ -1,6 +1,4 @@
-﻿using SnakeProject.Application.DTOs.Product;
-
-namespace SnakeProject.Application.Validations.Products
+﻿namespace SnakeProject.Application.Validations.Products
 {
     public class PsnCodeRequestValidator :AbstractValidator<PsnCodeRequest>
     {

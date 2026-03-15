@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SnakeProject.Application.DTOs.Product;
+using SnakeProject.Application.DTOs.Products;
+using SnakeProject.Application.Repositories;
 namespace SnakeProject_BE.Controllers
 {
     [Route("api/[controller]")]

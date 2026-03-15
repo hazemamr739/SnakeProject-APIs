@@ -1,7 +1,3 @@
-using SnakeProject.Application.DTOs.Product;
-using SnakeProject.Application.Repositories;
-using SnakeProject.Domain.Entities;
-
 namespace SnakeProject.Application.Services;
 
 public class PsnCodeService(IPsnCodeRepository _repository) : IPsnCodeService

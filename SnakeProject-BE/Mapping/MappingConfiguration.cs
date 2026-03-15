@@ -1,4 +1,5 @@
-﻿using SnakeProject.Domain.Entities;
+﻿using SnakeProject.Application.DTOs.Products;
+using SnakeProject.Domain.Entities;
 namespace SnakeProject.API.Mapping
 {
     public class MappingConfiguration : IRegister

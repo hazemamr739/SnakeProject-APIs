@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using SnakeProject.Application.DTOs.Product;
+﻿using SnakeProject.Application.DTOs.Products;
 
 namespace SnakeProject_BE.Validations.Products
 {

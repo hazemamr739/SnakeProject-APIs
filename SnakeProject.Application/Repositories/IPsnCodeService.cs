@@ -1,6 +1,5 @@
-﻿using SnakeProject.Application.DTOs.Product;
-using SnakeProject.Domain.Entities;
-namespace SnakeProject.Application.Services
+﻿using SnakeProject.Domain.Entities;
+namespace SnakeProject.Application.Repositories
 {
     public interface IPsnCodeService
     {
