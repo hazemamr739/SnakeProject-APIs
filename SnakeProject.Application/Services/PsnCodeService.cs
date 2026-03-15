@@ -1,40 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
 using SnakeProject.Application.DTOs.Product;
+using SnakeProject.Application.Repositories;
 using SnakeProject.Domain.Entities;
-namespace SnakeProject.Application.Services
+
+namespace SnakeProject.Application.Services;
+
+public class PsnCodeService(IPsnCodeRepository _repository) : IPsnCodeService
 {
-    public class PsnCodeService(ApplicationDbContext _context) : IPsnCodeService
+    public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodesAsync()
     {
-       // private readonly ApplicationDbContext _context;
+        var list = await _repository.GetAllAsync();
+        return list.Select(p => new PsnCodeResponse(p.Id, p.Code, p.IsUsed));
+    }
 
+    public async Task<PsnCode> GetPsnCodeByIdAsync(int id)
+    {
+        var psnCode = await _repository.FindAsync(id);
+        return psnCode ?? throw new KeyNotFoundException($"PsnCode with ID {id} not found.");
+    }
 
-        public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodesAsync() => (IEnumerable<PsnCodeResponse>)await _context.PsnCodes.ToListAsync();
-        public async Task<PsnCode> GetPsnCodeByIdAsync(int id)
-        {
+    public async Task<PsnCode> AddPsnCodeAsync(PsnCodeRequest codeRequest, CancellationToken cancellationToken = default)
+    {
+        var existingCode = await _repository.GetByCodeAsync(codeRequest.Code, cancellationToken);
+        if (existingCode is not null)
+            throw new InvalidOperationException($"PsnCode with code '{codeRequest.Code}' already exists.");
 
-            var psnCode = await _context.PsnCodes.FindAsync(id);
-            return psnCode ?? throw new KeyNotFoundException($"PsnCode with ID {id} not found.");
-        }
-        public async Task<PsnCode> AddPsnCodeAsync(PsnCodeRequest codeRequest, CancellationToken cancellationToken = default)
-        {
-            var existingCode = await _context.PsnCodes
-                .FirstOrDefaultAsync(p => p.Code == codeRequest.Code, cancellationToken);
-
-            if (existingCode is not null)
-                throw new InvalidOperationException($"PsnCode with code '{codeRequest.Code}' already exists.");
-
-            var psnCode = codeRequest.Adapt<PsnCode>();
-
-            _context.PsnCodes.Add(psnCode);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return psnCode;
-        }
-
-        Task<IEnumerable<PsnCodeResponse>> IPsnCodeService.GetAllPsnCodesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+        var psnCode = codeRequest.Adapt<PsnCode>();
+        _repository.Add(psnCode);
+        await _repository.SaveChangesAsync(cancellationToken);
+        return psnCode;
     }
 }

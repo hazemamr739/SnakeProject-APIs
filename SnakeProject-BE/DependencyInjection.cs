@@ -1,5 +1,7 @@
-﻿using MapsterMapper;
+using MapsterMapper;
+using SnakeProject.Application.Repositories;
 using SnakeProject.Infrastructure;
+using SnakeProject.Infrastructure.Repositories;
 using System.Reflection;
 
 namespace SnakeProject.API
@@ -22,6 +24,7 @@ namespace SnakeProject.API
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
+            services.AddScoped<IPsnCodeRepository, PsnCodeRepository>();
 
             return services;
         }
