@@ -1,5 +1,7 @@
 using MapsterMapper;
-using SnakeProject_BE.Persistence;
+using SnakeProject.API;
+using SnakeProject.Application.Repositories;
+using SnakeProject.Infrastructure.Services;
 using System.Reflection;
 
 namespace SnakeProject_BE

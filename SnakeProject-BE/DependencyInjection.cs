@@ -1,10 +1,10 @@
-﻿using Mapster;
 using MapsterMapper;
-using SnakeProject_BE.Persistence;
-using System;
+using SnakeProject.Application.Repositories;
+using SnakeProject.Infrastructure;
+using SnakeProject.Infrastructure.Repositories;
 using System.Reflection;
 
-namespace SnakeProject_BE
+namespace SnakeProject.API
 {
     public static class DependencyInjection
     {
@@ -24,6 +24,7 @@ namespace SnakeProject_BE
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
+            services.AddScoped<IPsnCodeRepository, PsnCodeRepository>();
 
             return services;
         }

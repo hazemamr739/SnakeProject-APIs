@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SnakeProject.Application\SnakeProject.Application.csproj" />
+    <ProjectReference Include="..\SnakeProject.Domain\SnakeProject.Domain.csproj" />
+    <ProjectReference Include="..\SnakeProject.Shared\SnakeProject.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SnakeProject_BE.Contracts.Product;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using SnakeProject.Application.DTOs.Products;
+using SnakeProject.Application.Repositories;
 namespace SnakeProject_BE.Controllers
 {
     [Route("api/[controller]")]

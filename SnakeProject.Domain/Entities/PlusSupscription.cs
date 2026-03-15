@@ -1,0 +1,21 @@
+﻿using SnakeProject.Domain.Enums;
+
+namespace SnakeProject.DomainE.Entities
+{
+    public class PlusSupscription
+    {
+        public int Id { get; set; }
+
+        public PlusPlan Plan { get; set; }           // Essential, Extra, Deluxe
+
+        public SubscriptionDuration DurationMonths { get; set; }    
+
+        public AccessType AccessType { get; set; }
+
+        public decimal Price { get; set; }
+
+        public bool IsActive { get; set; }
+
+        
+    }
+}
