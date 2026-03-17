@@ -1,4 +1,4 @@
-# 🧠 SnakeProject: A Comprehensive Application for Managing PsnCode Entities
+# 🧠 SnakeProject: A Comprehensive Application for Managing PsnCode 
 The SnakeProject is a robust and scalable application designed to manage PsnCode entities, providing a layer of abstraction between the core logic and the data access layer. This project aims to demonstrate a well-structured architecture, using a variety of technologies and tools to provide a seamless development experience.
 
 ## 🚀 Features
@@ -54,8 +54,6 @@ SnakeProject
 │   ├── DependencyInjection.cs
 │   ├── API.csproj
 ```
-
-## 📸 Screenshots
 
 
 ## 🤝 Contributing
