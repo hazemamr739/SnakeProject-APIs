@@ -24,7 +24,7 @@ namespace SnakeProject.API
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
-            services.AddScoped<IPsnCodeRepository, PsnCodeRepository>();
+            services.AddScoped<IPsnCodeService, PsnCodeRepository>();
 
             return services;
         }

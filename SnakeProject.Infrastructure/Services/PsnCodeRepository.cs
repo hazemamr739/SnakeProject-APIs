@@ -1,7 +1,6 @@
-using SnakeProject.Application.Repositories;
 namespace SnakeProject.Infrastructure.Repositories;
 
-public class PsnCodeRepository(ApplicationDbContext context) : IPsnCodeRepository
+public class PsnCodeRepository(ApplicationDbContext context) : IPsnCodeService
 {
     public async Task<IReadOnlyList<PsnCode>> GetAllAsync(CancellationToken cancellationToken = default) =>
         await context.PsnCodes.ToListAsync(cancellationToken);
@@ -16,4 +15,8 @@ public class PsnCodeRepository(ApplicationDbContext context) : IPsnCodeRepositor
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
         context.SaveChangesAsync(cancellationToken);
+
+    //public Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodesAsync();
+    //public Task<PsnCode> GetPsnCodeByIdAsync(int id);
+    //public Task<PsnCode> AddPsnCodeAsync(PsnCodeRequest codeRequest, CancellationToken cancellationToken = default);
 }
