@@ -1,10 +1,6 @@
-using MapsterMapper;
-using SnakeProject.API;
-using SnakeProject.Application.Repositories;
-using SnakeProject.Infrastructure.Services;
 using System.Reflection;
 
-namespace SnakeProject_BE
+namespace SnakeProject.API
 {
     public class Program
     {
@@ -15,22 +11,15 @@ namespace SnakeProject_BE
             // Add services to the container.
             builder.Services.AddDependencies(builder.Configuration);
             builder.Services.AddInfrastructureServices(builder.Configuration);
-            // Add DbContext Configuration
-            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(connectionString);
-            //});
-
+        ;
+           
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             builder.Services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             builder.Services.AddControllers();
             
-           
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IPsnCodeService, PsnCodeService>();
+
 
             var app = builder.Build();
 
