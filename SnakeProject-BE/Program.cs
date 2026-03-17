@@ -1,5 +1,4 @@
 using System.Reflection;
-
 namespace SnakeProject.API
 {
     public class Program
@@ -18,22 +17,22 @@ namespace SnakeProject.API
             builder.Services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             builder.Services.AddControllers();
-            
-
-
+           
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseSwagger();
                 app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
 
             app.MapControllers();
 
