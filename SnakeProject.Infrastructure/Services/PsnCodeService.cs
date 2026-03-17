@@ -1,6 +1,6 @@
 namespace SnakeProject.Infrastructure.Repositories;
 
-public class PsnCodeRepository(ApplicationDbContext context) : IPsnCodeService
+public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 {
     public async Task<IReadOnlyList<PsnCode>> GetAllAsync(CancellationToken cancellationToken = default) =>
         await context.PsnCodes.ToListAsync(cancellationToken);
