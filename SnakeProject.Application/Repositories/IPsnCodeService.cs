@@ -1,4 +1,3 @@
-
 namespace SnakeProject.Application.Repositories;
 
 public interface IPsnCodeService
@@ -7,7 +6,7 @@ public interface IPsnCodeService
     Task<Result<PsnCodeResponse>> GetPsnCodeAsync(string id, CancellationToken cancellationToken = default);
 
     Task<Result<PsnCodeResponse>> AddAsyn(PsnCodeRequest request, CancellationToken cancellationToken = default);
-    Task<Result<PsnCodeResponse>> UpdateAsyn(int id, PsnCodeRequest request, CancellationToken cancellationToken = default);
+    Task<Result<PsnCodeResponse>> UpdateAsyn(string id, PsnCodeRequest request, CancellationToken cancellationToken = default);
     Task<Result> DeleteAsyn(string id, CancellationToken cancellationToken = default);
 
 }

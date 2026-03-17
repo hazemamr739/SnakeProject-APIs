@@ -4,14 +4,7 @@ namespace SnakeProject.Infrastructure.Repositories;
 public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWork) : IPsnCodeService
 {
     private readonly ApplicationDbContext _dbContext = context;
-    //public async Task<IReadOnlyList<PsnCode>> GetAllAsync(CancellationToken cancellationToken = default) =>
-    //    await context.PsnCodes.ToListAsync(cancellationToken);
-
-    //public Task<PsnCode?> FindAsync(int id, CancellationToken cancellationToken = default) =>
-    //    context.PsnCodes.FindAsync([id], cancellationToken).AsTask();
-
-    //public Task<PsnCode?> GetByCodeAsync(string code, CancellationToken cancellationToken = default) =>
-    //    context.PsnCodes.FirstOrDefaultAsync(p => p.Code == code, cancellationToken);
+  
     public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodeAsync(
         CancellationToken cancellationToken = default)
     {
@@ -62,8 +55,17 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
     }
 
 
-    public Task<Result<PsnCodeResponse>> UpdateAsyn(int id, PsnCodeRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<PsnCodeResponse>> UpdateAsyn(string id, PsnCodeRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var psnCode = await _dbContext.PsnCodes.FindAsync(new object[] { id }, cancellationToken);
+
+        if (psnCode is null)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id));
+
+        request.Adapt(psnCode);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
     }
 }
