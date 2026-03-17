@@ -29,9 +29,23 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         return Result<PsnCodeResponse>.Success(psnCode.Adapt<PsnCodeResponse>());
     }
 
-    public Task<Result<PsnCodeResponse>> AddAsyn(PsnCodeRequest request, CancellationToken cancellationToken)
+    public async Task<Result<PsnCodeResponse>> AddAsyn(PsnCodeRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(request.Code))
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.EmptyPsnCode);
+
+        var exists = await _dbContext.PsnCodes
+            .AnyAsync(x => x.Code == request.Code, cancellationToken);
+
+        if (exists)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DuplicatePsnCode);
+
+        var psnCode = request.Adapt<PsnCode>();
+
+        await _dbContext.PsnCodes.AddAsync(psnCode, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
     }
 
     public async Task<Result> DeleteAsyn(string id, CancellationToken cancellationToken)
