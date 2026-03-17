@@ -40,6 +40,19 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
 
         return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
     }
+    public async Task<Result<PsnCodeResponse>> UpdateAsyn(string id, PsnCodeRequest request, CancellationToken cancellationToken = default)
+    {
+        var psnCode = await _dbContext.PsnCodes.FindAsync(new object[] { id }, cancellationToken);
+
+        if (psnCode is null)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id));
+
+        request.Adapt(psnCode);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
+    }
 
     public async Task<Result> DeleteAsyn(string id, CancellationToken cancellationToken)
     {
@@ -55,17 +68,5 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
     }
 
 
-    public async Task<Result<PsnCodeResponse>> UpdateAsyn(string id, PsnCodeRequest request, CancellationToken cancellationToken = default)
-    {
-        var psnCode = await _dbContext.PsnCodes.FindAsync(new object[] { id }, cancellationToken);
-
-        if (psnCode is null)
-            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id));
-
-        request.Adapt(psnCode);
-
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
-        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
-    }
+  
 }

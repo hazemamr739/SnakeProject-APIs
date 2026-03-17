@@ -5,7 +5,7 @@ namespace SnakeProject_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(IPsnCodeService _psnCodeService) : ControllerBase
+    public class ProductController() : ControllerBase
     {
 
         //[HttpGet]
