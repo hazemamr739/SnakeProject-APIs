@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace SnakeProject.Application.Abstraction
+﻿namespace SnakeProject.Application.Abstraction
 {
     public class Result
     {
@@ -35,6 +33,6 @@ namespace SnakeProject.Application.Abstraction
         public TValue Value => IsSuccess
             ? _value!
             : throw new InvalidOperationException("Failure results cannot have value");
-
     }
+
 }
