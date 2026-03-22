@@ -9,8 +9,8 @@
         
         public Product Product { get; set; } = default!;
         public PsnCodesDenomination Denomination { get; set; } = default!;
-        
-        public bool IsUsed { get; set; }
+
+        public bool IsUsed { get; set; } = false;
         public DateTime UsedAt { get; set; } = DateTime.UtcNow;
     }
 }

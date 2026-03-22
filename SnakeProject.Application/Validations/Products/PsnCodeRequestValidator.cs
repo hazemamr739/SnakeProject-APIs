@@ -11,6 +11,9 @@
             RuleFor(p => p.ProductId)
                .GreaterThan(0).WithMessage("ProductId must be a positive number.");
 
+            RuleFor(p => p.DenominationId)
+                .GreaterThan(0).WithMessage("DenominationId must be a positive number.");
+
 
             RuleFor(x => x.UsedAt)
                 .Equal(default(DateTime))
