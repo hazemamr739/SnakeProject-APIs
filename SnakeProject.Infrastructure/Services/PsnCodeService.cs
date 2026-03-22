@@ -27,6 +27,22 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         if (string.IsNullOrWhiteSpace(request.Code))
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.EmptyPsnCode);
 
+        var productExists = await _dbContext.Products
+            .AnyAsync(x => x.Id == request.ProductId, cancellationToken);
+
+        if (!productExists)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.ProductNotFound(request.ProductId));
+
+        var denomination = await _dbContext.PsnCodesDenominations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.DenominationId, cancellationToken);
+
+        if (denomination is null)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationNotFound(request.DenominationId));
+
+        if (denomination.ProductId != request.ProductId)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationProductMismatch(request.DenominationId, request.ProductId));
+
         var exists = await _dbContext.PsnCodes
             .AnyAsync(x => x.Code == request.Code, cancellationToken);
 
@@ -46,6 +62,22 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
 
         if (psnCode is null)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id));
+
+        var productExists = await _dbContext.Products
+            .AnyAsync(x => x.Id == request.ProductId, cancellationToken);
+
+        if (!productExists)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.ProductNotFound(request.ProductId));
+
+        var denomination = await _dbContext.PsnCodesDenominations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.DenominationId, cancellationToken);
+
+        if (denomination is null)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationNotFound(request.DenominationId));
+
+        if (denomination.ProductId != request.ProductId)
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationProductMismatch(request.DenominationId, request.ProductId));
 
         request.Adapt(psnCode);
 
