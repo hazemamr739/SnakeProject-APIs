@@ -16,7 +16,7 @@ namespace SnakeProject_BE.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await _psnCodeService.GetPsnCodeAsync(id, cancellationToken);
             return result.IsSuccess
@@ -34,7 +34,7 @@ namespace SnakeProject_BE.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] PsnCodeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(int id, [FromBody] PsnCodeRequest request, CancellationToken cancellationToken)
         {
             var result = await _psnCodeService.UpdateAsyn(id, request, cancellationToken);
             return result.IsSuccess
@@ -43,7 +43,7 @@ namespace SnakeProject_BE.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             var result = await _psnCodeService.DeleteAsyn(id, cancellationToken);
             return result.IsSuccess

@@ -12,12 +12,12 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         return psns.Adapt<List<PsnCodeResponse>>();
     }
     
-    public async Task<Result<PsnCodeResponse>> GetPsnCodeAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<Result<PsnCodeResponse>> GetPsnCodeAsync(int id, CancellationToken cancellationToken = default)
     {
-        var psnCode = await _dbContext.PsnCodes.FindAsync(id, cancellationToken);
+        var psnCode = await _dbContext.PsnCodes.FindAsync([id], cancellationToken);
 
         if (psnCode is null)
-            return (Result<PsnCodeResponse>)Result<PsnCodeResponse>.Failure(PsnCodeErrors.PsnCodeNotFound(id));
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
 
         return Result<PsnCodeResponse>.Success(psnCode.Adapt<PsnCodeResponse>());
     }
@@ -56,12 +56,12 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
 
         return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
     }
-    public async Task<Result<PsnCodeResponse>> UpdateAsyn(string id, PsnCodeRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<PsnCodeResponse>> UpdateAsyn(int id, PsnCodeRequest request, CancellationToken cancellationToken = default)
     {
         var psnCode = await _dbContext.PsnCodes.FindAsync(new object[] { id }, cancellationToken);
 
         if (psnCode is null)
-            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id));
+            return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
 
         var productExists = await _dbContext.Products
             .AnyAsync(x => x.Id == request.ProductId, cancellationToken);
@@ -86,12 +86,12 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
     }
 
-    public async Task<Result> DeleteAsyn(string id, CancellationToken cancellationToken)
+    public async Task<Result> DeleteAsyn(int id, CancellationToken cancellationToken)
     {
-        var psnCode = await _dbContext.PsnCodes.FindAsync(id, cancellationToken);
+        var psnCode = await _dbContext.PsnCodes.FindAsync([id], cancellationToken);
 
         if (psnCode is null)
-            return Result.Failure(PsnCodeErrors.PsnCodeNotFound(id));
+            return Result.Failure(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
 
         _dbContext.PsnCodes.Remove(psnCode);
         await _dbContext.SaveChangesAsync(cancellationToken);
