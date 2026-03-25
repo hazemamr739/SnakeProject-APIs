@@ -14,6 +14,13 @@
             builder.Property(p => p.Description)
                 .HasMaxLength(2500);
 
+            builder.Property(p => p.Type)
+                .IsRequired()
+                .HasConversion<byte>();
+
+            builder.Property(p => p.CategoryId)
+                .IsRequired(false);
+
             builder.Property(p => p.Price)
                 .IsRequired()
                 .HasPrecision(18, 2)
@@ -29,6 +36,12 @@
 
         protected override void ConfigureRelationships(EntityTypeBuilder<Product> builder)
         {
+            builder.HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Product_Category_CategoryId");
+
             // One Product has Many PsnCodesDenominations
             builder.HasMany(p => p.Denominations)
                 .WithOne(d => d.Product)
@@ -48,6 +61,12 @@
         {
             builder.HasIndex(p => p.Name)
                 .HasDatabaseName("IX_Product_Name");
+
+            builder.HasIndex(p => p.Type)
+                .HasDatabaseName("IX_Product_Type");
+
+            builder.HasIndex(p => p.CategoryId)
+                .HasDatabaseName("IX_Product_CategoryId");
 
             builder.HasIndex(p => p.IsActive)
                 .HasDatabaseName("IX_Product_IsActive");

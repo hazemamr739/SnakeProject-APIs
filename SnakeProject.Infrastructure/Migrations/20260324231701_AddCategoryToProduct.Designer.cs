@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SnakeProject.Infrastructure;
 
@@ -11,9 +12,11 @@ using SnakeProject.Infrastructure;
 namespace SnakeProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260324231701_AddCategoryToProduct")]
+    partial class AddCategoryToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,21 +278,14 @@ namespace SnakeProject.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("IX_GameShareAccount_CategoryId");
-
-                    b.HasIndex("IsActive")
-                        .HasDatabaseName("IX_GameShareAccount_IsActive");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("GameShareAccount");
                 });
@@ -312,24 +308,17 @@ namespace SnakeProject.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<byte>("Plan")
                         .HasColumnType("tinyint");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("IX_PlusSubscription_CategoryId");
-
-                    b.HasIndex("IsActive")
-                        .HasDatabaseName("IX_PlusSubscription_IsActive");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("PlusSubscription");
                 });
@@ -588,24 +577,16 @@ namespace SnakeProject.Infrastructure.Migrations
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.GameShareAccount", b =>
                 {
-                    b.HasOne("SnakeProject.Domain.Entities.Category", "Category")
+                    b.HasOne("SnakeProject.Domain.Entities.Category", null)
                         .WithMany("GameShareAccounts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_GameShareAccount_Categories_CategoryId");
-
-                    b.Navigation("Category");
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.PlusSubscription", b =>
                 {
-                    b.HasOne("SnakeProject.Domain.Entities.Category", "Category")
+                    b.HasOne("SnakeProject.Domain.Entities.Category", null)
                         .WithMany("PlusSupscriptions")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_PlusSubscription_Categories_CategoryId");
-
-                    b.Navigation("Category");
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.Product", b =>

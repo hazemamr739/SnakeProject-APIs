@@ -22,6 +22,7 @@ namespace SnakeProject.API
                     sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
 
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPsnCodeService, PsnCodeService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

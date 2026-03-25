@@ -37,7 +37,6 @@
                 .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK_PsnCodesDenomination_Product_ProductId");
 
-         
             builder.HasMany(p => p.PsnCodes)
                 .WithOne(pc => pc.Denomination)
                 .HasForeignKey(pc => pc.DenominationId)
@@ -58,6 +57,10 @@
 
             builder.HasIndex(p => new { p.RegionId, p.Currency })
                 .HasDatabaseName("IX_PsnCodesDenomination_RegionId_Currency");
+
+            builder.HasIndex(p => new { p.ProductId, p.RegionId, p.Currency, p.Amount })
+                .IsUnique()
+                .HasDatabaseName("UX_PsnCodesDenomination_Product_Region_Currency_Amount");
         }
     }
 }

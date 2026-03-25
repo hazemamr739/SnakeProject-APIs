@@ -5,5 +5,6 @@ global using SnakeProject.Domain.Entities;
 global using SnakeProject.Infrastructure.Data.Configurations;
 global using SnakeProject.Application.Abstraction;
 global using SnakeProject.Application.DTOs.Products;
+global using SnakeProject.Application.DTOs.Categories;
 global using SnakeProject.Infrastructure.UnitOfWork;
 global using SnakeProject.Application.ErrorHandling;
