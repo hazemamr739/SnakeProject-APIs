@@ -63,5 +63,55 @@ namespace SnakeProject.Infrastructure.Services
 
             return Result.Success(product.Adapt<ProductResponse>());
         }
+
+        public async Task<Result<ProductResponse>> UpdateAsync(int id, ProductRequest request, CancellationToken cancellationToken = default)
+        {
+            var product = await _dbContext.Products
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (product is null)
+                return Result.Failure<ProductResponse>(ProductErrors.ProductNotFound(id));
+
+            if (request.CategoryId.HasValue)
+            {
+                var categoryExists = await _dbContext.Categories
+                    .AnyAsync(x => x.Id == request.CategoryId.Value, cancellationToken);
+
+                if (!categoryExists)
+                    return Result.Failure<ProductResponse>(ProductErrors.CategoryNotFound(request.CategoryId.Value));
+            }
+
+            var normalizedName = request.Name.Trim();
+
+            var duplicateExists = await _dbContext.Products
+                .AnyAsync(x => x.Id != id && x.Name == normalizedName && x.CategoryId == request.CategoryId, cancellationToken);
+
+            if (duplicateExists)
+                return Result.Failure<ProductResponse>(ProductErrors.DuplicateProductName);
+
+            request.Adapt(product);
+            product.Name = normalizedName;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Result.Success(product.Adapt<ProductResponse>());
+        }
+
+        public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var product = await _dbContext.Products
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (product is null)
+                return Result.Failure(ProductErrors.ProductNotFound(id));
+
+            if (!product.IsActive)
+                return Result.Failure(ProductErrors.ProductAlreadyInactive);
+
+            product.IsActive = false;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
+        }
     }
 }

@@ -12,4 +12,7 @@ public static class ProductErrors
 
     public static readonly Error DuplicateProductName =
         new("Product.DuplicateName", "A product with the same name already exists in this category.", StatusCodes.Status409Conflict);
+
+    public static readonly Error ProductAlreadyInactive =
+        new("Product.AlreadyInactive", "Product is already inactive.", StatusCodes.Status409Conflict);
 }

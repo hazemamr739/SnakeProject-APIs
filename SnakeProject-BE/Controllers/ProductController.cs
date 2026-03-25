@@ -15,7 +15,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         var result = await _productService.GetProductByIdAsync(id, cancellationToken);
@@ -32,6 +32,26 @@ public class ProductController(IProductService productService) : ControllerBase
 
         return result.IsSuccess
             ? CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value)
+            : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] ProductRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _productService.UpdateAsync(id, request, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(result.Value)
+            : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        var result = await _productService.DeleteAsync(id, cancellationToken);
+
+        return result.IsSuccess
+            ? NoContent()
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
     }
 }
