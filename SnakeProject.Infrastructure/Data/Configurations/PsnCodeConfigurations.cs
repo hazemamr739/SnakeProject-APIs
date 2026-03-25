@@ -1,4 +1,6 @@
-﻿namespace SnakeProject.Infrastructure.Data.Configurations
+using SnakeProject.Domain.Enums;
+
+namespace SnakeProject.Infrastructure.Data.Configurations
 {
     public class PsnCodeConfigurations : BaseEntityConfiguration<PsnCode>
     {
@@ -17,6 +19,12 @@
             builder.Property(p => p.DenominationId)
                 .IsRequired();
 
+            builder.Property(p => p.Status)
+                .IsRequired()
+                .HasConversion<int>()
+                .HasDefaultValue(InventoryStatus.Available)
+                .HasSentinel((InventoryStatus)0);
+
             builder.Property(p => p.IsUsed)
                 .HasDefaultValue(false);
 
@@ -26,14 +34,12 @@
 
         protected override void ConfigureRelationships(EntityTypeBuilder<PsnCode> builder)
         {
-            // Many PsnCodes belong to One Product
             builder.HasOne(p => p.Product)
                 .WithMany(pr => pr.PsnCodes)
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_PsnCode_Product_ProductId");
 
-            // Many PsnCodes belong to One PsnCodesDenomination
             builder.HasOne(p => p.Denomination)
                 .WithMany(d => d.PsnCodes)
                 .HasForeignKey(p => p.DenominationId)
@@ -43,22 +49,18 @@
 
         protected override void ConfigureIndexes(EntityTypeBuilder<PsnCode> builder)
         {
-            // Unique index for Code field
             builder.HasIndex(p => p.Code)
                 .IsUnique()
                 .HasDatabaseName("IX_PsnCode_Code_Unique");
 
-            // Index for ProductId to improve foreign key lookups
             builder.HasIndex(p => p.ProductId)
                 .HasDatabaseName("IX_PsnCode_ProductId");
 
-            // Index for DenominationId to improve foreign key lookups
             builder.HasIndex(p => p.DenominationId)
                 .HasDatabaseName("IX_PsnCode_DenominationId");
 
-            // Composite index for frequently queried combinations
-            builder.HasIndex(p => new { p.ProductId, p.IsUsed })
-                .HasDatabaseName("IX_PsnCode_ProductId_IsUsed");
+            builder.HasIndex(p => new { p.ProductId, p.Status })
+                .HasDatabaseName("IX_PsnCode_ProductId_Status");
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿namespace SnakeProject.Application.DTOs.Products
+﻿using SnakeProject.Domain.Enums;
+
+namespace SnakeProject.Application.DTOs.Products
 {
-    public record PsnCodeResponse(int Id , string Code, bool IsUsed);
+    public record PsnCodeResponse(int Id, string Code, InventoryStatus Status, bool IsUsed);
    
 }

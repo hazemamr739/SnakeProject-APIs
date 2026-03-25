@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
+using SnakeProject.Domain.Enums;
 
 namespace SnakeProject.Application.ErrorHandling
 {
@@ -12,8 +13,12 @@ namespace SnakeProject.Application.ErrorHandling
             new("PsnCode.DenominationProductMismatch", $"Denomination '{denominationId}' does not belong to product '{productId}'.", StatusCodes.Status400BadRequest);
 
         public static readonly Error PsnCodeAlreadyRedeemed = new("PsnCode.AlreadyRedeemed", "This code has already been redeemed.", StatusCodes.Status409Conflict);
-   
         public static readonly Error DuplicatePsnCode = new("PsnCode.Duplicate", "A PSN code with the same value already exists.", StatusCodes.Status409Conflict);
 
+        public static Error OutOfStock(int denominationId) =>
+            new("PsnCode.OutOfStock", $"No available PSN codes for denomination '{denominationId}'.", StatusCodes.Status409Conflict);
+
+        public static Error InvalidStatusTransition(InventoryStatus from, InventoryStatus to) =>
+            new("PsnCode.InvalidStatusTransition", $"Invalid status transition from '{from}' to '{to}'.", StatusCodes.Status409Conflict);
     }
 }
