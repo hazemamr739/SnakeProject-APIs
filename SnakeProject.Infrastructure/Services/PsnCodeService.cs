@@ -1,5 +1,6 @@
 using Mapster;
 using SnakeProject.Domain.Enums;
+using System.Data;
 
 namespace SnakeProject.Infrastructure.Repositories;
 
@@ -29,10 +30,10 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         if (psnCode is null)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
 
-        return Result<PsnCodeResponse>.Success(psnCode.Adapt<PsnCodeResponse>());
+        return Result.Success(psnCode.Adapt<PsnCodeResponse>());
     }
 
-    public async Task<Result<PsnCodeResponse>> AddAsyn(PsnCodeRequest request, CancellationToken cancellationToken)
+    public async Task<Result<PsnCodeResponse>> AddAsyn(PsnCodeRequest request, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(request.Code))
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.EmptyPsnCode);
@@ -61,15 +62,17 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
 
         var psnCode = request.Adapt<PsnCode>();
         psnCode.Status = request.IsUsed ? InventoryStatus.Sold : InventoryStatus.Available;
-        if (request.IsUsed && psnCode.UsedAt == default)
+
+        if (request.IsUsed)
         {
-            psnCode.UsedAt = DateTime.UtcNow;
+            psnCode.IsUsed = true;
+            psnCode.UsedAt = request.UsedAt == default ? DateTime.UtcNow : request.UsedAt;
         }
 
         await _dbContext.PsnCodes.AddAsync(psnCode, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
+        return Result.Success(psnCode.Adapt<PsnCodeResponse>());
     }
 
     public async Task<Result<PsnCodeResponse>> UpdateAsyn(int id, PsnCodeRequest request, CancellationToken cancellationToken = default)
@@ -108,10 +111,10 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Success<PsnCodeResponse>(psnCode.Adapt<PsnCodeResponse>());
+        return Result.Success(psnCode.Adapt<PsnCodeResponse>());
     }
 
-    public async Task<Result> DeleteAsyn(int id, CancellationToken cancellationToken)
+    public async Task<Result> DeleteAsyn(int id, CancellationToken cancellationToken = default)
     {
         var psnCode = await _dbContext.PsnCodes.FindAsync([id], cancellationToken);
 
@@ -149,14 +152,19 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         if (!denominationExists)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationNotFound(denominationId));
 
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
         var psnCode = await _dbContext.PsnCodes
-            .FirstOrDefaultAsync(x => x.DenominationId == denominationId && x.Status == InventoryStatus.Available, cancellationToken);
+            .Where(x => x.DenominationId == denominationId && x.Status == InventoryStatus.Available)
+            .OrderBy(x => x.Id)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (psnCode is null)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.OutOfStock(denominationId));
 
         psnCode.Status = InventoryStatus.Reserved;
         await _dbContext.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
 
         return Result.Success(psnCode.Adapt<PsnCodeResponse>());
     }
