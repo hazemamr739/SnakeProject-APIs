@@ -1,6 +1,7 @@
 ﻿global using Mapster;
 global using Microsoft.EntityFrameworkCore;
 global using SnakeProject.Application.DTOs.Products;
+global using SnakeProject.Application.DTOs.Cart;
 global using MapsterMapper;
 global using SnakeProject.API;
 global using SnakeProject.Application.Repositories;
