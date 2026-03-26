@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SnakeProject_BE.Controllers;
+namespace SnakeProject.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
