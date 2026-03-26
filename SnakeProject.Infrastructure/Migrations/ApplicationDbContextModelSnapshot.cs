@@ -249,7 +249,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("UserId", "Status")
                         .HasDatabaseName("IX_Cart_UserId_Status");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.CartItem", b =>
@@ -285,7 +285,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("CartId", "ProductId")
                         .HasDatabaseName("IX_CartItem_CartId_ProductId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.Category", b =>
@@ -322,7 +322,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("SortOrder")
                         .HasDatabaseName("IX_Category_SortOrder");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.GameShareAccount", b =>
@@ -359,7 +359,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_GameShareAccount_IsActive");
 
-                    b.ToTable("GameShareAccount");
+                    b.ToTable("GameShareAccount", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.Order", b =>
@@ -411,7 +411,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("UserId", "Status")
                         .HasDatabaseName("IX_Order_UserId_Status");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.OrderItem", b =>
@@ -451,7 +451,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("OrderId", "ProductId")
                         .HasDatabaseName("IX_OrderItem_OrderId_ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.PlusSubscription", b =>
@@ -491,7 +491,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_PlusSubscription_IsActive");
 
-                    b.ToTable("PlusSubscription");
+                    b.ToTable("PlusSubscription", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.Product", b =>
@@ -546,7 +546,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("Type")
                         .HasDatabaseName("IX_Product_Type");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCode", b =>
@@ -598,7 +598,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("ProductId", "Status")
                         .HasDatabaseName("IX_PsnCode_ProductId_Status");
 
-                    b.ToTable("PsnCodes");
+                    b.ToTable("PsnCodes", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCodesDenomination", b =>
@@ -645,7 +645,7 @@ namespace SnakeProject.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UX_PsnCodesDenomination_Product_Region_Currency_Amount");
 
-                    b.ToTable("PsnCodesDenominations");
+                    b.ToTable("PsnCodesDenominations", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.PsnRegion", b =>
@@ -675,7 +675,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("RegionCategoryId", "Name")
                         .HasDatabaseName("IX_PsnRegion_RegionCategoryId_Name");
 
-                    b.ToTable("PsnRegions");
+                    b.ToTable("PsnRegions", (string)null);
                 });
 
             modelBuilder.Entity("SnakeProject.Domain.Entities.RegionCategory", b =>
@@ -697,7 +697,7 @@ namespace SnakeProject.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_RegionCategory_Name_Unique");
 
-                    b.ToTable("RegionCategories");
+                    b.ToTable("RegionCategories", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
