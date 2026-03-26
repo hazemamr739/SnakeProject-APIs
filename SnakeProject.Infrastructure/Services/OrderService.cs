@@ -43,7 +43,7 @@ public class OrderService(ApplicationDbContext context, ICartService cartService
         return Result.Success(pagedResponse);
     }
 
-    public async Task<Result<OrderResponse>> CreateOrderFromCartAsync(string userId, CreateOrderRequest request, CancellationToken cancellationToken)
+    public async Task<Result<OrderResponse>> CreateOrderFromCartAsync(string userId, OrderRequest request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(userId);
         ArgumentNullException.ThrowIfNull(request);

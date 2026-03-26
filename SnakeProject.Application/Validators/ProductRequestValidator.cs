@@ -1,6 +1,3 @@
-using FluentValidation;
-using SnakeProject.Application.DTOs.Products;
-
 namespace SnakeProject.Application.Validators;
 
 public class ProductRequestValidator : AbstractValidator<ProductRequest>
@@ -18,9 +15,8 @@ public class ProductRequestValidator : AbstractValidator<ProductRequest>
             .GreaterThan(0).WithMessage("Product price must be greater than 0.");
 
         RuleFor(x => x.ImageUrl)
-            .NotEmpty().WithMessage("Product image URL is required.")
-            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
-            .WithMessage("Product image URL must be a valid URL.");
+            .NotEmpty().WithMessage("Product image URL is required.");
+           
 
         RuleFor(x => x.Type)
             .IsInEnum().WithMessage("Product type must be a valid enum value.");

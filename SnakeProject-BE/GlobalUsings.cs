@@ -1,5 +1,6 @@
 ﻿global using Mapster;
 global using Microsoft.EntityFrameworkCore;
+global using FluentValidation;
 global using SnakeProject.Application.DTOs.Products;
 global using SnakeProject.Application.DTOs.Cart;
 global using SnakeProject.Application.DTOs.Orders;
