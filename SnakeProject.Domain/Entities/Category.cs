@@ -11,6 +11,5 @@
         public ICollection<Product> Products { get; set; } = [];
         public ICollection<PlusSubscription> PlusSupscriptions { get; set; } = [];
         public ICollection<GameShareAccount> GameShareAccounts { get; set; } = [];
-        public ICollection<PsnCodesDenomination> PsnCodes { get; set; } = [];
     }
 }

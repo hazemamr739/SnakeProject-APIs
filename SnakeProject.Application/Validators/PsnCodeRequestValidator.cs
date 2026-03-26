@@ -15,7 +15,11 @@ public class PsnCodeRequestValidator : AbstractValidator<PsnCodeRequest>
             .GreaterThan(0).WithMessage("Denomination ID must be greater than 0.");
 
         RuleFor(x => x.UsedAt)
-            .LessThanOrEqualTo(DateTime.UtcNow).When(x => x.IsUsed)
+            .NotNull().When(x => x.IsUsed)
+            .WithMessage("UsedAt is required when IsUsed is true.");
+
+        RuleFor(x => x.UsedAt!.Value)
+            .LessThanOrEqualTo(DateTime.UtcNow).When(x => x.IsUsed && x.UsedAt.HasValue)
             .WithMessage("Used date cannot be in the future.");
     }
 }

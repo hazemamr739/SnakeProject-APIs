@@ -66,7 +66,12 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         if (request.IsUsed)
         {
             psnCode.IsUsed = true;
-            psnCode.UsedAt = request.UsedAt == default ? DateTime.UtcNow : request.UsedAt;
+            psnCode.UsedAt = request.UsedAt ?? DateTime.UtcNow;
+        }
+        else
+        {
+            psnCode.IsUsed = false;
+            psnCode.UsedAt = DateTime.UtcNow;
         }
 
         await _dbContext.PsnCodes.AddAsync(psnCode, cancellationToken);
@@ -106,7 +111,7 @@ public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWor
         {
             psnCode.IsUsed = true;
             psnCode.Status = InventoryStatus.Sold;
-            psnCode.UsedAt = request.UsedAt == default ? DateTime.UtcNow : request.UsedAt;
+            psnCode.UsedAt = request.UsedAt ?? DateTime.UtcNow;
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
