@@ -4,7 +4,7 @@ using System.Data;
 
 namespace SnakeProject.Infrastructure.Repositories;
 
-public class PsnCodeService(ApplicationDbContext context, IUnitOfWork _unitOfWork) : IPsnCodeService
+public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 {
     private readonly ApplicationDbContext _dbContext = context;
 
