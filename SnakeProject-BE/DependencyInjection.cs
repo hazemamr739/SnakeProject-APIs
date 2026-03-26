@@ -1,3 +1,4 @@
+
 using SnakeProject.Infrastructure;
 using SnakeProject.Infrastructure.UnitOfWork;
 using System.Reflection;
@@ -23,9 +24,11 @@ public static class DependencyInjection
                 sqlOptions => sqlOptions.EnableRetryOnFailure())
         );
 
+        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IPsnCodeService, PsnCodeService>();
         services.AddScoped<ICartService, CartService>();
+        services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

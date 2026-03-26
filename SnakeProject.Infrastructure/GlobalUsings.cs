@@ -9,3 +9,4 @@ global using SnakeProject.Application.Repositories;
 global using SnakeProject.Domain.Entities;
 global using SnakeProject.Infrastructure.Data.Configurations;
 global using SnakeProject.Infrastructure.UnitOfWork;
+global using SnakeProject.Application.DTOs.Orders;

@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using SnakeProject.Domain.Entities;
-using SnakeProject.Infrastructure.Data.Configurations;
 
 namespace SnakeProject.Infrastructure;
 
@@ -14,6 +12,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<RegionCategory> RegionCategories { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +29,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfiguration(new PlusSubscriptionConfigurations());
         modelBuilder.ApplyConfiguration(new CartConfigurations());
         modelBuilder.ApplyConfiguration(new CartItemConfigurations());
+        modelBuilder.ApplyConfiguration(new OrderConfigurations());
+        modelBuilder.ApplyConfiguration(new OrderItemConfigurations());
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
