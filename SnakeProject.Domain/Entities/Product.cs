@@ -12,7 +12,7 @@ namespace SnakeProject.Domain.Entities
         public int? CategoryId { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = default!;
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public Category? Category { get; set; }
         public ICollection<PsnCodesDenomination> Denominations { get; set; } = [];

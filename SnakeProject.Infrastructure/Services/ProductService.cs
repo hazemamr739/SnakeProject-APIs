@@ -96,6 +96,7 @@ namespace SnakeProject.Infrastructure.Services
 
             var product = request.Adapt<Product>();
             product.Name = normalizedName;
+            product.IsActive = true;
 
             await _dbContext.Products.AddAsync(product, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
