@@ -1,5 +1,11 @@
-﻿namespace SnakeProject.Application.DTOs.Products
+﻿
+namespace SnakeProject.Application.DTOs.Products;
+
+public record PsnCodeRequest
 {
-    public record PsnCodeRequest(string Code, int ProductId, int DenominationId, DateTime UsedAt, bool IsUsed = false);
-    
+    public string Code { get; init; } = string.Empty;
+    public int ProductId { get; init; }
+    public int DenominationId { get; init; }
+    public DateTime? UsedAt { get; init; }
+    public bool IsUsed { get; init; }
 }

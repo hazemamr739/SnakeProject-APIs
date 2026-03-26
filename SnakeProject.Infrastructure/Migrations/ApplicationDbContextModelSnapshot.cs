@@ -155,7 +155,7 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -220,13 +220,290 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.Product", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Status")
+                        .HasDatabaseName("IX_Cart_UserId_Status");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PsnCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PsnCodeId");
+
+                    b.HasIndex("CartId", "ProductId")
+                        .HasDatabaseName("IX_CartItem_CartId_ProductId");
+
+                    b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("SortOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_Category_IsActive");
+
+                    b.HasIndex("Name")
+                        .HasDatabaseName("IX_Category_Name");
+
+                    b.HasIndex("SortOrder")
+                        .HasDatabaseName("IX_Category_SortOrder");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.GameShareAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte>("AccessType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Console")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("IX_GameShareAccount_CategoryId");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_GameShareAccount_IsActive");
+
+                    b.ToTable("GameShareAccount");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<byte>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_Order_CreatedAt");
+
+                    b.HasIndex("UserId", "Status")
+                        .HasDatabaseName("IX_Order_UserId_Status");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PsnCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PsnCodeId");
+
+                    b.HasIndex("OrderId", "ProductId")
+                        .HasDatabaseName("IX_OrderItem_OrderId_ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PlusSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte>("AccessType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationMonths")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<byte>("Plan")
+                        .HasColumnType("tinyint");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("IX_PlusSubscription_CategoryId");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_PlusSubscription_IsActive");
+
+                    b.ToTable("PlusSubscription");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -252,7 +529,13 @@ namespace SnakeProject.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("IX_Product_CategoryId");
 
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Product_IsActive");
@@ -260,10 +543,13 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .HasDatabaseName("IX_Product_Name");
 
-                    b.ToTable("Products", (string)null);
+                    b.HasIndex("Type")
+                        .HasDatabaseName("IX_Product_Type");
+
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnCode", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,6 +573,11 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.Property<DateTime>("UsedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -304,13 +595,13 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("ProductId")
                         .HasDatabaseName("IX_PsnCode_ProductId");
 
-                    b.HasIndex("ProductId", "IsUsed")
-                        .HasDatabaseName("IX_PsnCode_ProductId_IsUsed");
+                    b.HasIndex("ProductId", "Status")
+                        .HasDatabaseName("IX_PsnCode_ProductId_Status");
 
-                    b.ToTable("PsnCodes", (string)null);
+                    b.ToTable("PsnCodes");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnCodesDenomination", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCodesDenomination", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -345,10 +636,14 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("RegionId", "ProductId")
                         .HasDatabaseName("IX_PsnCodesDenomination_RegionId_ProductId");
 
-                    b.ToTable("PsnCodesDenominations", (string)null);
+                    b.HasIndex("ProductId", "RegionId", "Currency", "Amount")
+                        .IsUnique()
+                        .HasDatabaseName("UX_PsnCodesDenomination_Product_Region_Currency_Amount");
+
+                    b.ToTable("PsnCodesDenominations");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnRegion", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnRegion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -375,10 +670,10 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.HasIndex("RegionCategoryId", "Name")
                         .HasDatabaseName("IX_PsnRegion_RegionCategoryId_Name");
 
-                    b.ToTable("PsnRegions", (string)null);
+                    b.ToTable("PsnRegions");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.RegionCategory", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.RegionCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -397,7 +692,7 @@ namespace SnakeProject.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_RegionCategory_Name_Unique");
 
-                    b.ToTable("RegionCategories", (string)null);
+                    b.ToTable("RegionCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -411,7 +706,7 @@ namespace SnakeProject.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.ApplicationUser", null)
+                    b.HasOne("SnakeProject.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -420,7 +715,7 @@ namespace SnakeProject.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.ApplicationUser", null)
+                    b.HasOne("SnakeProject.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -435,7 +730,7 @@ namespace SnakeProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SnakeProject_BE.Entities.ApplicationUser", null)
+                    b.HasOne("SnakeProject.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -444,23 +739,108 @@ namespace SnakeProject.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.ApplicationUser", null)
+                    b.HasOne("SnakeProject.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnCode", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.CartItem", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.PsnCodesDenomination", "Denomination")
+                    b.HasOne("SnakeProject.Domain.Entities.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SnakeProject.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SnakeProject.Domain.Entities.PsnCode", "PsnCode")
+                        .WithMany()
+                        .HasForeignKey("PsnCodeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("PsnCode");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.GameShareAccount", b =>
+                {
+                    b.HasOne("SnakeProject.Domain.Entities.Category", "Category")
+                        .WithMany("GameShareAccounts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_GameShareAccount_Categories_CategoryId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("SnakeProject.Domain.Entities.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SnakeProject.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SnakeProject.Domain.Entities.PsnCode", "PsnCode")
+                        .WithMany()
+                        .HasForeignKey("PsnCodeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("PsnCode");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PlusSubscription", b =>
+                {
+                    b.HasOne("SnakeProject.Domain.Entities.Category", "Category")
+                        .WithMany("PlusSupscriptions")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_PlusSubscription_Categories_CategoryId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("SnakeProject.Domain.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_Product_Category_CategoryId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCode", b =>
+                {
+                    b.HasOne("SnakeProject.Domain.Entities.PsnCodesDenomination", "Denomination")
                         .WithMany("PsnCodes")
                         .HasForeignKey("DenominationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_PsnCode_PsnCodesDenomination_DenominationId");
 
-                    b.HasOne("SnakeProject_BE.Entities.Product", "Product")
+                    b.HasOne("SnakeProject.Domain.Entities.Product", "Product")
                         .WithMany("PsnCodes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,16 +852,16 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnCodesDenomination", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCodesDenomination", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.Product", "Product")
+                    b.HasOne("SnakeProject.Domain.Entities.Product", "Product")
                         .WithMany("Denominations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_PsnCodesDenomination_Product_ProductId");
 
-                    b.HasOne("SnakeProject_BE.Entities.PsnRegion", "Region")
+                    b.HasOne("SnakeProject.Domain.Entities.PsnRegion", "Region")
                         .WithMany("PsnCodesDenominations")
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -493,9 +873,9 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnRegion", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnRegion", b =>
                 {
-                    b.HasOne("SnakeProject_BE.Entities.RegionCategory", "RegionCategory")
+                    b.HasOne("SnakeProject.Domain.Entities.RegionCategory", "RegionCategory")
                         .WithMany("PsnRegions")
                         .HasForeignKey("RegionCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -505,24 +885,43 @@ namespace SnakeProject.Infrastructure.Migrations
                     b.Navigation("RegionCategory");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.Product", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("GameShareAccounts");
+
+                    b.Navigation("PlusSupscriptions");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("SnakeProject.Domain.Entities.Product", b =>
                 {
                     b.Navigation("Denominations");
 
                     b.Navigation("PsnCodes");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnCodesDenomination", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnCodesDenomination", b =>
                 {
                     b.Navigation("PsnCodes");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.PsnRegion", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.PsnRegion", b =>
                 {
                     b.Navigation("PsnCodesDenominations");
                 });
 
-            modelBuilder.Entity("SnakeProject_BE.Entities.RegionCategory", b =>
+            modelBuilder.Entity("SnakeProject.Domain.Entities.RegionCategory", b =>
                 {
                     b.Navigation("PsnRegions");
                 });

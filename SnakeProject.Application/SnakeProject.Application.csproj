@@ -11,4 +11,8 @@
     <ProjectReference Include="..\SnakeProject.Shared\SnakeProject.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validations\" />
+  </ItemGroup>
+
 </Project>

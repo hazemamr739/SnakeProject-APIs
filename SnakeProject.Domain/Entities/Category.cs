@@ -1,6 +1,4 @@
-﻿using SnakeProject.DomainE.Entities;
-
-namespace SnakeProject.Domain.Entities
+﻿namespace SnakeProject.Domain.Entities
 {
     public class Category
     {
@@ -10,9 +8,8 @@ namespace SnakeProject.Domain.Entities
         public int SortOrder { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public ICollection<PlusSupscription> PlusSupscriptions { get; set; } = [];
+        public ICollection<Product> Products { get; set; } = [];
+        public ICollection<PlusSubscription> PlusSupscriptions { get; set; } = [];
         public ICollection<GameShareAccount> GameShareAccounts { get; set; } = [];
-        public ICollection<PsnCodesDenomination> PsnCodes { get; set; } = [];
-
     }
 }

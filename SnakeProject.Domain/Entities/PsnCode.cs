@@ -1,4 +1,6 @@
-﻿namespace SnakeProject.Domain.Entities
+﻿using SnakeProject.Domain.Enums;
+
+namespace SnakeProject.Domain.Entities
 {
     public class PsnCode
     {
@@ -10,6 +12,7 @@
         public Product Product { get; set; } = default!;
         public PsnCodesDenomination Denomination { get; set; } = default!;
 
+        public InventoryStatus Status { get; set; } = InventoryStatus.Available;
         public bool IsUsed { get; set; } = false;
         public DateTime UsedAt { get; set; } = DateTime.UtcNow;
     }
