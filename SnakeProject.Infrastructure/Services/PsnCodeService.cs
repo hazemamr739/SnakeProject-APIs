@@ -1,9 +1,7 @@
 using Mapster;
 using SnakeProject.Domain.Enums;
 using System.Data;
-
 namespace SnakeProject.Infrastructure.Repositories;
-
 public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 {
     private readonly ApplicationDbContext _dbContext = context;
@@ -157,7 +155,7 @@ public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
         if (!denominationExists)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.DenominationNotFound(denominationId));
 
-        await using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken); // Ensure we have a transaction to prevent and await using is meaning we will dispose the transaction after the block, which will automatically roll back if not committed
 
         var psnCode = await _dbContext.PsnCodes
             .Where(x => x.DenominationId == denominationId && x.Status == InventoryStatus.Available)
@@ -176,7 +174,7 @@ public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 
     public async Task<Result<PsnCodeResponse>> ReleaseAsync(int id, CancellationToken cancellationToken = default)
     {
-        var psnCode = await _dbContext.PsnCodes.FindAsync([id], cancellationToken);
+        var psnCode = await _dbContext.PsnCodes.FindAsync(id, cancellationToken);
 
         if (psnCode is null)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
@@ -192,7 +190,7 @@ public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 
     public async Task<Result<PsnCodeResponse>> MarkSoldAsync(int id, CancellationToken cancellationToken = default)
     {
-        var psnCode = await _dbContext.PsnCodes.FindAsync([id], cancellationToken);
+        var psnCode = await _dbContext.PsnCodes.FindAsync(id, cancellationToken);
 
         if (psnCode is null)
             return Result.Failure<PsnCodeResponse>(PsnCodeErrors.PsnCodeNotFound(id.ToString()));
