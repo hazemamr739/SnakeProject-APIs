@@ -53,6 +53,12 @@ public static class DependencyInjection
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+        services.AddOptions<AdminSeedOptions>()
+            .BindConfiguration(AdminSeedOptions.SectionName)
+            .ValidateDataAnnotations();
+
+        services.AddScoped<RolePermissionSeeder>();
+
         services.AddSingleton<IJwtProvider, JwtProvider>();
         services.AddScoped<IAuthService, AuthService>();
 
@@ -106,7 +112,7 @@ public static class DependencyInjection
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IUserService,UserService>();
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

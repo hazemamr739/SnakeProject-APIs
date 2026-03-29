@@ -1,4 +1,4 @@
-using System.Reflection;
+using SnakeProject.API.Authentication;
 namespace SnakeProject.API
 {
     public class Program
@@ -9,12 +9,18 @@ namespace SnakeProject.API
 
             // Add services to the container.
             builder.Services.AddDependencies(builder.Configuration);
-            builder.Services.AddInfrastructureServices(builder.Configuration);
-               
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             var app = builder.Build();
+
+            
+            using (var scope = app.Services.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
+                seeder.SeedAsync().GetAwaiter().GetResult();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
