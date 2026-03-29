@@ -10,14 +10,8 @@ namespace SnakeProject.API
             // Add services to the container.
             builder.Services.AddDependencies(builder.Configuration);
             builder.Services.AddInfrastructureServices(builder.Configuration);
-        ;
-           
-            var mappingConfig = TypeAdapterConfig.GlobalSettings;
-            mappingConfig.Scan(Assembly.GetExecutingAssembly());
-            builder.Services.AddSingleton<IMapper>(new Mapper(mappingConfig));
-
+               
             builder.Services.AddControllers();
-           
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             var app = builder.Build();
