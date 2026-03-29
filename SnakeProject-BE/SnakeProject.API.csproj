@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SnakeProject_BE</RootNamespace>
+    <UserSecretsId>4a37e61f-a892-4a8c-bb02-8372a55875d3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

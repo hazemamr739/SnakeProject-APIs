@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SnakeProject.API.Authentication;
 using SnakeProject.Domain.Enums;
 
 namespace SnakeProject.API.Controllers;
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -9,6 +12,7 @@ public class ProductController(IProductService productService) : ControllerBase
 {
     private readonly IProductService _productService = productService;
 
+    [HasPermission(Permissions.ProductsRead)]
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] int? categoryId,
@@ -24,6 +28,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(products);
     }
 
+    [HasPermission(Permissions.ProductsRead)]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
@@ -34,6 +39,7 @@ public class ProductController(IProductService productService) : ControllerBase
             : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.ProductsAdd)]
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] ProductRequest request, CancellationToken cancellationToken)
     {
@@ -44,6 +50,7 @@ public class ProductController(IProductService productService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.ProductsUpdate)]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] ProductRequest request, CancellationToken cancellationToken)
     {
@@ -54,6 +61,7 @@ public class ProductController(IProductService productService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.ProductsDelete)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
