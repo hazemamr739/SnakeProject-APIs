@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SnakeProject.API.Authentication;
+using SnakeProject.Application.Abstraction;
+using SnakeProject.Application.DTOs;
 
 namespace SnakeProject_BE.Controllers
 {
