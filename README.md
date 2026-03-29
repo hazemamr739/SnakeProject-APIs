@@ -1,74 +1,194 @@
-# 🧠 PSN Code Manager Project
-The PSN Code Manager project is a comprehensive application designed to manage PlayStation Network (PSN) codes, providing a robust and scalable solution for handling PSN code-related operations. This project aims to simplify the process of generating, validating, and managing PSN codes, making it easier for developers to integrate PSN code functionality into their applications. The project utilizes a .NET Core framework, leveraging the latest technologies to ensure a high-performance and reliable system.
+# SnakeProject APIs
 
-## 🚀 Features
-* **PSN Code Generation**: Generate unique and valid PSN codes for various purposes, such as rewards, promotions, or subscriptions.
-* **PSN Code Validation**: Validate PSN codes to ensure their authenticity and prevent unauthorized access.
-* **PSN Code Management**: Manage PSN codes, including creating, updating, and deleting codes, as well as tracking their usage and expiration dates.
-* **Product Management**: Manage products related to PSN codes, including product catalogs, pricing, and inventory management.
-* **Error Handling**: Implement robust error handling mechanisms to handle exceptions and errors, ensuring a seamless user experience.
+Production-style ASP.NET Core Web API for selling digital PlayStation products, managing PSN code inventory, checkout/cart flow, and orders.
 
-## 🛠️ Tech Stack
-* **Backend**: .NET Core 3.1
-* **Database**: Entity Framework Core
-* **ORM**: Entity Framework Core
-* **Logging**: Serilog
-* **Exception Handling**: GlobalExceptionHandler
-* **Dependency Injection**: Microsoft.Extensions.DependencyInjection
-* **Web Framework**: ASP.NET Core 3.1
-* **API**: RESTful API
+---
 
-## 📦 Installation
-To install the PSN Code Manager project, follow these steps:
-1. Clone the repository using Git: `git clone https://github.com/your-repo/psn-code-manager.git`
-2. Navigate to the project directory: `cd psn-code-manager`
-3. Restore NuGet packages: `dotnet restore`
-4. Build the project: `dotnet build`
-5. Run the project: `dotnet run`
+## Overview
 
-## 💻 Usage
-To use the PSN Code Manager project, follow these steps:
-1. Launch the application: `dotnet run`
-2. Access the API using a tool like Postman or cURL
-3. Use the API endpoints to generate, validate, and manage PSN codes
+`SnakeProject` provides:
+- Authentication with JWT + refresh token
+- Role/permission-based authorization
+- Category and product management
+- PSN code lifecycle management (`Available -> Reserved -> Sold`)
+- Cart and checkout flow
+- Order lifecycle management
 
-## 📂 Project Structure
-```markdown
-PSNCodeManager
-├── Controllers
-│   ├── PsnCodeController.cs
-│   ├── ProductController.cs
-├── Interfaces
-│   ├── IPsnCodeService.cs
-│   ├── IProductService.cs
-│   ├── IUnitOfWork.cs
-├── Services
-│   ├── PsnCodeService.cs
-│   ├── ProductService.cs
-│   ├── UnitOfWork.cs
-├── Data
-│   ├── ApplicationDbContext.cs
-│   ├── Repository
-│   │   ├── PsnCodeRepository.cs
-│   │   ├── ProductRepository.cs
-├── Utilities
-│   ├── GlobalExceptionHandler.cs
-├── appsettings.json
-├── appsettings.Development.json
-├── Program.cs
-└── Startup.cs
+Built with `.NET 9` and clean layered architecture.
+
+---
+
+## Tech Stack
+
+- **Framework:** ASP.NET Core Web API (`net9.0`)
+- **Database:** SQL Server + Entity Framework Core
+- **Identity:** ASP.NET Core Identity
+- **Auth:** JWT Bearer + refresh tokens
+- **Authorization:** Policy-based permissions (`HasPermission`)
+- **Validation:** FluentValidation
+- **Mapping:** Mapster
+- **API docs/testing:** Swagger + Postman collection
+
+---
+
+## Solution Structure
+
+- `SnakeProject-BE` → API host (`Program`, controllers, auth config)
+- `SnakeProject.Application` → DTOs, contracts, validators, error models
+- `SnakeProject.Domain` → entities and enums
+- `SnakeProject.Infrastructure` → EF Core context, migrations, service implementations
+- `SnakeProject.Shared` → shared abstractions/utilities
+
+---
+
+## Key Features
+
+### Authentication & Authorization
+- Register, login, refresh token, revoke refresh token
+- Forgot/reset password endpoints
+- Permission-protected endpoints using `HasPermission`
+- Startup seed for roles and permissions (`Admin`, `Member`)
+
+### Business Modules
+- **Categories:** CRUD
+- **Products:** CRUD with paging/filter/sort
+- **PSN Codes:** CRUD + reserve/release/sell + inventory summary
+- **Cart:** add/remove items, clear cart, checkout
+- **Orders:** create from cart, list, get by id, update status, cancel
+
+---
+
+## API Base URL
+
+- Local: `https://localhost:7168`
+- Swagger: `https://localhost:7168/swagger`
+
+---
+
+## Configuration
+
+Set values in `SnakeProject-BE/appsettings.json` or environment variables:
+
+- `ConnectionStrings:DefaultConnection`
+- `Jwt:Key`
+- `Jwt:Issuer`
+- `Jwt:Audience`
+- `Jwt:DurationInMinutes`
+- `AdminSeed:Email`
+- `AdminSeed:Password`
+
+> **Important:** Never commit real secrets. Use **User Secrets** for local development and secure secret storage in production.
+
+---
+
+## Local Setup
+
+### 1) Restore
+```powershell
+dotnet restore
 ```
 
-## 📸 Screenshots
+### 2) Apply migrations
+```powershell
+dotnet ef database update --project SnakeProject.Infrastructure --startup-project SnakeProject-BE
+```
 
-## 🤝 Contributing
-To contribute to the PSN Code Manager project, please follow these steps:
-1. Fork the repository using Git: `git fork https://github.com/your-repo/psn-code-manager.git`
-2. Create a new branch: `git branch feature/your-feature`
-3. Make changes and commit: `git commit -m "Your commit message"`
-4. Push changes: `git push origin feature/your-feature`
-5. Create a pull request
+### 3) Run API
+```powershell
+dotnet run --project SnakeProject-BE
+```
 
-## 📝 License
-The PSN Code Manager project is licensed under the MIT License.
+### 4) Open Swagger
+Go to:
+- `https://localhost:7168/swagger`
+
+---
+
+## Endpoint Groups
+
+- `Auth` → `/api/auth/*`
+- `Account` → `/me/*`
+- `Categories` → `/api/category/*`
+- `Products` → `/api/product/*`
+- `PSN Codes` → `/api/psncode/*`
+- `Cart` → `/api/cart/*`
+- `Orders` → `/api/order/*`
+
+Detailed frontend integration guide:
+- `docs/frontend-api-guide.md`
+
+---
+
+## Main Enums (Quick Reference)
+
+### ProductType
+- `1 = Account`
+- `2 = Subscription`
+- `3 = PsnCode`
+
+### InventoryStatus
+- `1 = Available`
+- `2 = Reserved`
+- `3 = Sold`
+
+### OrderStatus
+- `1 = Pending`
+- `2 = Paid`
+- `3 = Processing`
+- `4 = Completed`
+- `5 = Cancelled`
+- `6 = Failed`
+
+### Currency
+- `1 = USD`
+- `2 = UAE`
+- `3 = KSA`
+- `4 = EGP`
+
+### AccessType
+- `1 = FullAccount`
+- `2 = Primary`
+- `3 = Secondary`
+
+---
+
+## Postman
+
+Use:
+- `postman/SnakeProject-APIs.postman_collection.json`
+
+Recommended testing order:
+1. Login
+2. Save/use bearer token
+3. Test protected endpoints
+
+---
+
+## Troubleshooting
+
+### 401 Unauthorized
+- Missing/expired/invalid JWT token.
+
+### 403 Forbidden
+- Token is valid but user lacks required permission.
+- Re-login after role/permission changes.
+
+### EF/Migration errors
+- Ensure connection string is valid.
+- Re-run migrations command.
+- Confirm model and database are in sync.
+
+---
+
+## Contributing
+
+1. Create a feature branch
+2. Make focused commits
+3. Open pull request with clear description
+
+---
+
+## License
+
+Add your license here (for example: MIT).
 
