@@ -24,6 +24,7 @@ public static class DependencyInjection
 
         return services;
     }
+
     public static IServiceCollection AddFluentValidationConfig(this IServiceCollection services)
     {
         services
@@ -32,6 +33,7 @@ public static class DependencyInjection
 
         return services;
     }
+
     public static IServiceCollection AddMapsterConfig(this IServiceCollection services)
     {
         var mappingConfig = TypeAdapterConfig.GlobalSettings;
@@ -41,6 +43,7 @@ public static class DependencyInjection
 
         return services;
     }
+
     public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -51,8 +54,8 @@ public static class DependencyInjection
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
         services.AddSingleton<IJwtProvider, JwtProvider>();
+        services.AddScoped<IAuthService, AuthService>();
 
-        // services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
         services.AddOptions<JwtOptions>()
              .BindConfiguration(JwtOptions.SectionName)
              .ValidateDataAnnotations()
@@ -89,6 +92,7 @@ public static class DependencyInjection
 
         return services;
     }
+
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -102,6 +106,7 @@ public static class DependencyInjection
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserService,UserService>();
 
         return services;
     }
