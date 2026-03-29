@@ -31,12 +31,30 @@ namespace SnakeProject.Infrastructure.Services
             var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
             if (result.Succeeded)
             {
-                var (userRoles, userPermisssions) = await GetUserRolesAndPermissions(user, cancellationToken);
+                var userRoles = await _userManager.GetRolesAsync(user);
 
-                var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles, userPermisssions);
+                // Backward compatibility: old users created before role seeding can have no roles.
+                if (userRoles.Count == 0)
+                {
+                    var addRoleResult = await _userManager.AddToRoleAsync(user, "Member");
+                    if (addRoleResult.Succeeded)
+                        userRoles = await _userManager.GetRolesAsync(user);
+                }
+
+                var userPermissions = await _dbContext.Roles
+                    .Join(_dbContext.RoleClaims,
+                        role => role.Id,
+                        claim => claim.RoleId,
+                        (role, claim) => new { role, claim }
+                    )
+                    .Where(x => userRoles.Contains(x.role.Name!))
+                    .Select(x => x.claim.ClaimValue!)
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
+
+                var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles, userPermissions);
 
                 var refreshToken = GenerateRefreshToken();
-
                 var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
                 user.RefreshTokens.Add(new RefreshToken
@@ -47,7 +65,6 @@ namespace SnakeProject.Infrastructure.Services
                 await _userManager.UpdateAsync(user);
 
                 var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration);
-
                 return Result.Success(response);
             }
 
@@ -171,16 +188,23 @@ namespace SnakeProject.Infrastructure.Services
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                return Result.Success();
+                var createError = result.Errors.First();
+                return Result.Failure(new Error(createError.Code, createError.Description, StatusCodes.Status400BadRequest));
             }
-            var error = result.Errors.First();
-            return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
 
+            var addRoleResult = await _userManager.AddToRoleAsync(user, "Member");
+            if (!addRoleResult.Succeeded)
+            {
+                var roleError = addRoleResult.Errors.First();
+                return Result.Failure(new Error(roleError.Code, roleError.Description, StatusCodes.Status400BadRequest));
+            }
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            return Result.Success();
         }
 
         public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)

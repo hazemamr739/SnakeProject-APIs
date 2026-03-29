@@ -15,12 +15,11 @@ namespace SnakeProject.API
             builder.Services.AddSwaggerGen();
             var app = builder.Build();
 
-            
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
-            //    seeder.SeedAsync().GetAwaiter().GetResult();
-            //}
+            using (var scope = app.Services.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
+                seeder.SeedAsync().GetAwaiter().GetResult();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

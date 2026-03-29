@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace SnakeProject.API.Authentication
 {
     public static class Permissions
@@ -42,7 +44,11 @@ namespace SnakeProject.API.Authentication
         public const string RolesAdd = "roles:add";
         public const string RolesUpdate = "roles:update";
 
-        public static IList<string?> GetAllPermissions() =>
-              typeof(Permissions).GetFields().Select(field => field.GetValue(field) as string).ToList();
+        public static IList<string> GetAllPermissions() =>
+            typeof(Permissions)
+                .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                .Where(field => field.IsLiteral && !field.IsInitOnly && field.FieldType == typeof(string) && field.Name != nameof(Type))
+                .Select(field => (string)field.GetRawConstantValue()!)
+                .ToList();
     }
 }
