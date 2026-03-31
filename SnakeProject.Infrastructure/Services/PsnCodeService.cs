@@ -6,9 +6,7 @@ public class PsnCodeService(ApplicationDbContext context) : IPsnCodeService
 {
     private readonly ApplicationDbContext _dbContext = context;
 
-    public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodeAsync(
-        InventoryStatus? status = null,
-        CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<PsnCodeResponse>> GetAllPsnCodeAsync( InventoryStatus? status = null, CancellationToken cancellationToken = default)
     {
         var query = _dbContext.PsnCodes.AsNoTracking();
 
