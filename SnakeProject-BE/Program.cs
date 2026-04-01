@@ -8,7 +8,6 @@ namespace SnakeProject.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container
             builder.Services.AddDependencies(builder.Configuration);
 
             builder.Services.AddCors(options =>
@@ -28,21 +27,6 @@ namespace SnakeProject.API
 
             var app = builder.Build();
 
-            // Seed data safely
-            using (var scope = app.Services.CreateScope())
-            {
-                try
-                {
-                    var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
-                    await seeder.SeedAsync();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred during seeding: {ex}");
-                }
-            }
-
-            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -53,12 +37,9 @@ namespace SnakeProject.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseCors("AllowAll");
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
 
             await app.RunAsync();
