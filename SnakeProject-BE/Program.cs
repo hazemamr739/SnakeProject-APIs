@@ -35,7 +35,18 @@ namespace SnakeProject.API
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 });
             }
-
+            using (var scope = app.Services.CreateScope())
+            {
+                try
+                {
+                    var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
+                    await seeder.SeedAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
             app.UseAuthentication();
