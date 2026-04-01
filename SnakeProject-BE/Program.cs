@@ -1,40 +1,48 @@
-using SnakeProject.API.Authentication;
+﻿using SnakeProject.API.Authentication;
+
 namespace SnakeProject.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add services to the container
             builder.Services.AddDependencies(builder.Configuration);
 
-            // Add CORS
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
-                    policy =>
-                    {
-                        policy
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                    });
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
             });
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             var app = builder.Build();
 
+            // Seed data safely
             using (var scope = app.Services.CreateScope())
             {
-                var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
-                seeder.SeedAsync().GetAwaiter().GetResult();
+                try
+                {
+                    var seeder = scope.ServiceProvider.GetRequiredService<RolePermissionSeeder>();
+                    await seeder.SeedAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred during seeding: {ex}");
+                }
             }
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -46,14 +54,14 @@ namespace SnakeProject.API
 
             app.UseHttpsRedirection();
 
-            // Use CORS
             app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-            app.Run();
+
+            await app.RunAsync();
         }
     }
 }
