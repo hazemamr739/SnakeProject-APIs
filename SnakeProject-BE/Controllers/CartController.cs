@@ -1,13 +1,17 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SnakeProject.API.Authentication;
 
 namespace SnakeProject.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class CartController(ICartService cartService) : ControllerBase
 {
     private readonly ICartService _cartService = cartService;
 
+    [HasPermission(Permissions.CartRead)]
     [HttpGet]
     public async Task<IActionResult> GetCart(CancellationToken cancellationToken)
     {
@@ -21,6 +25,7 @@ public class CartController(ICartService cartService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status404NotFound, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.CartAddItem)]
     [HttpPost("items")]
     public async Task<IActionResult> AddItem([FromBody] CartItemRequest request, CancellationToken cancellationToken)
     {
@@ -34,6 +39,7 @@ public class CartController(ICartService cartService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status400BadRequest, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.CartRemoveItem)]
     [HttpDelete("items/{cartItemId:int}")]
     public async Task<IActionResult> RemoveItem(int cartItemId, CancellationToken cancellationToken)
     {
@@ -47,6 +53,7 @@ public class CartController(ICartService cartService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status404NotFound, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.CartClear)]
     [HttpDelete]
     public async Task<IActionResult> ClearCart(CancellationToken cancellationToken)
     {
@@ -60,6 +67,7 @@ public class CartController(ICartService cartService) : ControllerBase
             : Problem(statusCode: result.Error.StatusCode ?? StatusCodes.Status404NotFound, title: result.Error.Description);
     }
 
+    [HasPermission(Permissions.CartCheckout)]
     [HttpPost("checkout")]
     public async Task<IActionResult> Checkout([FromBody] CheckoutRequest request, CancellationToken cancellationToken)
     {

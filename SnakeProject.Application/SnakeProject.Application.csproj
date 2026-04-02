@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SnakeProject.Domain\SnakeProject.Domain.csproj" />
-    <ProjectReference Include="..\SnakeProject.Shared\SnakeProject.Shared.csproj" />
+    <Compile Remove="Validations\**" />
+    <EmbeddedResource Remove="Validations\**" />
+    <None Remove="Validations\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validations\" />
+    <ProjectReference Include="..\SnakeProject.Domain\SnakeProject.Domain.csproj" />
+    <ProjectReference Include="..\SnakeProject.Shared\SnakeProject.Shared.csproj" />
   </ItemGroup>
 
 </Project>
