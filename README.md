@@ -188,7 +188,5 @@ Recommended testing order:
 
 ---
 
-## License
-
 Add your license here (for example: MIT).
 
